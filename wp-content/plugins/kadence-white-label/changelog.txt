@@ -1,0 +1,8 @@
+== 1.0.1 | 30th January 2025 ==
+* Fix: Kadence Blocks Pro not white labeled on dashboard updates page
+
+== 1.0.0 | 15th April 2024 ==
+* Update: Initial release.
+
+== 0.0.1 | 1st April 2022 ==
+* Update: Getting Started.

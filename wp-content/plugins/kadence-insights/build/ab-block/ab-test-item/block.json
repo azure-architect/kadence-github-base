@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "kadence-insights/ab-test-item",
+  "title": "A/B Test Item",
+  "category": "layout",
+  "description": "Single A/B test item.",
+  "supports": {
+    "html": false,
+    "inserter": false,
+    "customClassName": false,
+    "reusable": false,
+    "lock": false,
+    "kbMetadata": true,
+    "kbContentLabel": "name"
+  },
+  "textdomain": "kadence-insights",
+  "keywords": [
+    "kb",
+    "a/b",
+    "test"
+  ],
+  "parent": [
+    "kadence-insights/ab-test"
+  ],
+  "attributes": {
+    "variantID": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "usesContext": [
+    "postId",
+    "kadence/variantsCount"
+  ]
+}

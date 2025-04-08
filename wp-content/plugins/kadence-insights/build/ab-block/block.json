@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "kadence-insights/ab-test",
+  "title": "A/B Testing",
+  "category": "layout",
+  "description": "Create a simple A/B test with any section of content on your website.",
+  "supports": {
+    "html": false,
+    "customClassName": false,
+    "reusable": false,
+    "lock": false,
+    "kbMetadata": true
+  },
+  "textdomain": "kadence-insights",
+  "keywords": [
+    "kb",
+    "a/b",
+    "test"
+  ],
+  "attributes": {
+    "id": {
+      "type": "integer",
+      "default": 0
+    },
+    "uniqueID": {
+      "type": "string"
+    },
+    "visibleVariant": {
+      "type": "integer",
+      "default": 0
+    },
+    "variantsCount": {
+      "type": "integer",
+      "default": 1
+    }
+  },
+  "providesContext": {
+    "postId": "id",
+    "kadence/variantsCount": "variantsCount"
+  }
+}

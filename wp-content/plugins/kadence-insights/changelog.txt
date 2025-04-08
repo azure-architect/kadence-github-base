@@ -1,0 +1,14 @@
+== 1.0.2 | 26th November 2024 ==
+* Update: Add preview link in block.
+* Update: Add usage locations in ab list.
+* Fix: Analytics chart when 0 data for current day.
+
+== 1.0.1 | 18th November 2024 ==
+* Update: Tweak Goal Tracking.
+* Update: Test Updater.
+
+== 1.0.0 | 18th November 2024 ==
+* Update: Initial release.
+
+== 0.1.0 | 15th October 2024 ==
+* Update: Initial Beta.
