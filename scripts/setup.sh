@@ -164,28 +164,28 @@ setup_kadence() {
   unzip -q kadence-blocks.zip -d wp-content/plugins/
   rm kadence-blocks.zip
   
-  echo "Downloading Kadence Starter Templates plugin..."
-  curl -L https://downloads.wordpress.org/plugin/kadence-starter-templates.latest-stable.zip -o kadence-starter-templates.zip
-  unzip -q kadence-starter-templates.zip -d wp-content/plugins/
-  rm kadence-starter-templates.zip
+  # echo "Downloading Kadence Starter Templates plugin..."
+  # curl -L https://downloads.wordpress.org/plugin/kadence-starter-templates.latest-stable.zip -o kadence-starter-templates.zip
+  # unzip -q kadence-starter-templates.zip -d wp-content/plugins/
+  # rm kadence-starter-templates.zip
   
   # Add other plugins you commonly use
   echo "Downloading additional plugins..."
   
   # Advanced Custom Fields
-  curl -L https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip -o acf.zip
-  unzip -q acf.zip -d wp-content/plugins/
-  rm acf.zip
+  # curl -L https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip -o acf.zip
+  # unzip -q acf.zip -d wp-content/plugins/
+  # rm acf.zip
   
-  # Wordfence Security
-  curl -L https://downloads.wordpress.org/plugin/wordfence.latest-stable.zip -o wordfence.zip
-  unzip -q wordfence.zip -d wp-content/plugins/
-  rm wordfence.zip
+  # # Wordfence Security
+  # curl -L https://downloads.wordpress.org/plugin/wordfence.latest-stable.zip -o wordfence.zip
+  # unzip -q wordfence.zip -d wp-content/plugins/
+  # rm wordfence.zip
   
-  # Yoast SEO
-  curl -L https://downloads.wordpress.org/plugin/wordpress-seo.latest-stable.zip -o wordpress-seo.zip
-  unzip -q wordpress-seo.zip -d wp-content/plugins/
-  rm wordpress-seo.zip
+  # # Yoast SEO
+  # curl -L https://downloads.wordpress.org/plugin/wordpress-seo.latest-stable.zip -o wordpress-seo.zip
+  # unzip -q wordpress-seo.zip -d wp-content/plugins/
+  # rm wordpress-seo.zip
   
   echo -e "${GREEN}Kadence theme and plugins setup complete!${NC}"
 }
