@@ -1,0 +1,85 @@
+# WordPress core files
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/xmlrpc.php
+/license.txt
+/readme.html
+/index.php
+
+# WordPress config
+/wp-config.php
+/wp-config-*.php
+!config/wp-config-*.php
+
+# WordPress content to ignore
+/wp-content/uploads/
+/wp-content/upgrade/
+/wp-content/backup-db/
+/wp-content/cache/
+/wp-content/advanced-cache.php
+/wp-content/wp-cache-config.php
+/wp-content/blogs.dir/
+/wp-content/upgrade/
+/wp-content/backups/
+
+# Specific plugins to ignore (track all others)
+/wp-content/plugins/wordpress-seo/
+/wp-content/plugins/wp-optimize/
+/wp-content/plugins/wordfence/
+/wp-content/kadence-blocks/
+/wp-content/plugins/kadence-blocks-pro/
+/wp-content/plugins/kadence-pro/
+/wp-content/plugins/secure-custom-fields/
+
+# Themes to ignore
+/wp-content/themes/twenty*/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Environment files with sensitive information
+.env
+.env.*
+
+# Development tools
+/node_modules/
+/vendor/
+npm-debug.log
+yarn-error.log
+/dist/
+/build/
+package-lock.json
+composer.lock
+
+# System files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE and editor folders
+/.idea/
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/tasks.json
+!/.vscode/launch.json
+!/.vscode/extensions.json
+
+# Local by Flywheel specific
+/local-site.json
+/local-xdebuginfo.php
+
+# Client-specific override files
+.client-overrides.json
+
+# Deployment exclusions
+.deployignore
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*.zip

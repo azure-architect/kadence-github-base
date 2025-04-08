@@ -1,0 +1,119 @@
+name: Deploy to {{CLIENT_NAME}} Website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to {{CLIENT_SLUG}} environment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+          extensions: mbstring, intl, gd, xml, zip
+          tools: composer:v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Setup known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Install dependencies
+        run: |
+          # Install any dependencies needed for the project
+          if [ -f "composer.json" ]; then
+            composer install --no-dev --optimize-autoloader
+          fi
+
+          if [ -f "package.json" ]; then
+            npm ci
+            npm run build
+          fi
+
+      - name: Run pre-deployment checks
+        run: |
+          echo "Running pre-deployment checks..."
+          # Add any checks you want to run before deployment
+
+          # Example: Validate syntax of PHP files
+          find . -name "*.php" -exec php -l {} \; | grep -v "No syntax errors"
+          if [ ${PIPESTATUS[1]} -eq 0 ]; then
+            echo "PHP syntax errors found"
+            exit 1
+          fi
+
+      - name: Deploy to server
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          echo "Deploying to $DEPLOY_HOST:$DEPLOY_PATH..."
+
+          # Create .deployignore if it doesn't exist
+          if [ ! -f ".deployignore" ]; then
+            cat > .deployignore << EOL
+          .git/
+          .github/
+          .gitignore
+          .deployignore
+          /node_modules/
+          /vendor/
+          /scripts/
+          /config/
+          README.md
+          *.log
+          *.sql
+          *.sqlite
+          .DS_Store
+          Thumbs.db
+          local-*.*
+          EOL
+          fi
+
+          # Create a backup directory on the server
+          ssh $DEPLOY_USER@$DEPLOY_HOST "mkdir -p ${DEPLOY_PATH}_backups/$(date +%Y%m%d%H%M%S)"
+
+          # Backup current files before deployment (excluding uploads)
+          ssh $DEPLOY_USER@$DEPLOY_HOST "rsync -a --exclude='wp-content/uploads' $DEPLOY_PATH/ ${DEPLOY_PATH}_backups/$(date +%Y%m%d%H%M%S)/"
+
+          # Deploy files to server, excluding items in .deployignore
+          rsync -avz --delete --exclude-from='.deployignore' --exclude='wp-content/uploads' --exclude='wp-config.php' ./ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH/
+
+      - name: Run post-deployment tasks
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          echo "Running post-deployment tasks..."
+
+          # Clear any caches
+          ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && wp cache flush || true"
+
+          # Update database if needed
+          # ssh $DEPLOY_USER@$DEPLOY_HOST "cd $DEPLOY_PATH && wp core update-db || true"
+
+          echo "Deployment completed successfully!"
+
+      - name: Send notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_TITLE: Deploy to {{CLIENT_NAME}}
+          SLACK_MESSAGE: ${{ job.status == 'success' && 'Deployment successful! :rocket:' || 'Deployment failed! :x:' }}
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
